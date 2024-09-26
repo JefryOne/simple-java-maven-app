@@ -2,10 +2,21 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.2'
-            args '-v /root/.m2:/root/.m2'
+            args '-u root -v $WORKSPACE/.m2:/root/.m2'
         }
     }
+
+    environment {
+        GITHUB_CRED = "github"
+        GITHUB_URL = "https://github.com/JefryOne/simple-java-maven-app.git"
+    }
+
     stages {
+        stage('checkout') {
+            steps {
+                git changelog: false, credentialsId: env.GITHUB_CRED, poll: false, url: env.GITHUB_URL
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
