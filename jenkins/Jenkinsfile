@@ -12,11 +12,11 @@ pipeline {
     }
 
     stages {
-        stage('checkout') {
+        /* stage('checkout') {
             steps {
                 git changelog: false, credentialsId: env.GITHUB_CRED, poll: false, url: env.GITHUB_URL
             }
-        }
+        } */
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
